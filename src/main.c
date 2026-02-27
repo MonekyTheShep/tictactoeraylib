@@ -83,12 +83,14 @@ static void resetGame(GameState *gameState) {
     resetTiles(gameState);
 }
 
-static void checkWin(GameState *gameState, TileValue tile_value, Tile *tiles)
+static void checkWin(GameState *gameState, const TileValue tile_value)
 {
     const int NUM_OF_ROW = NUM_OF_SQUARES / MAX_PER_ROW;
     // 0 1 2
     // 3 4 5
     // 6 7 8
+
+    const Tile *tiles = gameState->tiles;
 
     bool threeInARowVertical = false;
     bool threeInARowHorizontal = false;
@@ -140,8 +142,9 @@ static void checkWin(GameState *gameState, TileValue tile_value, Tile *tiles)
 }
 
 
-static void checkDraw(GameState *gameState, Tile *tiles) {
+static void checkDraw(GameState *gameState) {
     bool hasDefault = false;
+    const Tile *tiles = gameState->tiles;
     for (int i = 0; i < NUM_OF_SQUARES; i++)
     {
         if (tiles[i].value == DEFAULT_VALUE)
@@ -158,11 +161,11 @@ static void checkDraw(GameState *gameState, Tile *tiles) {
 }
 
 static void handleWin(GameState *gameState) {
-    checkWin(gameState, CIRCLE, gameState->tiles);
-    checkWin(gameState, CROSS, gameState->tiles);
+    checkWin(gameState, CIRCLE);
+    checkWin(gameState, CROSS);
 
     if (gameState->gameResult != WIN_CIRCLE && gameState->gameResult != WIN_CROSS) {
-        checkDraw(gameState, gameState->tiles);
+        checkDraw(gameState);
     }
 }
 
