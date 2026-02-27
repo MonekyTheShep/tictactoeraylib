@@ -233,12 +233,14 @@ int main(void)
                 case CIRCLE:
                     DrawRectangleRec(gameState.tiles[i].tile, WHITE);
                     const Vector2 OSize = MeasureTextEx(GetFontDefault(), "O", 90, 1);
-                    DrawText("O", (int)(gameState.tiles[i].tile.x + (OSize.x / 2)) , (int) gameState.tiles[i].tile.y, 90, BLACK);
+                    const Vector2 OPosition = {gameState.tiles[i].tile.x + (OSize.x / 2), gameState.tiles[i].tile.y};
+                    DrawTextEx(GetFontDefault(), "O", OPosition, 90, 1, BLACK);
                     break;
                 case CROSS:
                     DrawRectangleRec(gameState.tiles[i].tile, WHITE);
                     const Vector2 XSize = MeasureTextEx(GetFontDefault(), "X", 90, 1);
-                    DrawText("X",  (int) (gameState.tiles[i].tile.x + (XSize.x / 2)), (int) gameState.tiles[i].tile.y, 90, BLACK);
+                    const Vector2 XPosition = {gameState.tiles[i].tile.x + (XSize.x / 2), gameState.tiles[i].tile.y};
+                    DrawTextEx(GetFontDefault(), "X", XPosition, 90, 1, BLACK);
                     break;
             }
         }
