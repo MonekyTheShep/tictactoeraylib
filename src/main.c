@@ -48,13 +48,12 @@ typedef struct GameState
 {
     PlayerTurn playerTurn;
     GameResult gameResult;
+    Tile tiles[NUM_OF_SQUARES];
 } GameState;
 
-GameState gameState = {CROSS_TURN, PLAYING};
+GameState gameState = {CROSS_TURN, PLAYING, {0}};
 
-Tile tiles[NUM_OF_SQUARES];
-
-static void initTiles(void)
+static void initTiles(Tile *tiles)
 {
     for (int i = 0; i < NUM_OF_SQUARES; i++)
     {
@@ -76,7 +75,7 @@ static void resetTiles(void)
 {
     for (int i = 0; i < NUM_OF_SQUARES; i++)
     {
-        tiles[i].value = DEFAULT_VALUE;
+        gameState.tiles[i].value = DEFAULT_VALUE;
     }
 }
 
@@ -86,7 +85,7 @@ static void resetGame(void) {
     resetTiles();
 }
 
-static void checkWin(TileValue tile_value)
+static void checkWin(TileValue tile_value, Tile *tiles)
 {
     const int NUM_OF_ROW = NUM_OF_SQUARES / MAX_PER_ROW;
     // 0 1 2
@@ -104,7 +103,6 @@ static void checkWin(TileValue tile_value)
             && (tiles[i * MAX_PER_ROW + 2].value == tile_value));
 
         if (threeInARowHorizontal) break;
-
     }
 
     for (int i = 0; i < NUM_OF_ROW; i++)
@@ -144,7 +142,7 @@ static void checkWin(TileValue tile_value)
 }
 
 
-static void checkDraw(void) {
+static void checkDraw(Tile *tiles) {
     bool hasDefault = false;
     for (int i = 0; i < NUM_OF_SQUARES; i++)
     {
@@ -161,12 +159,12 @@ static void checkDraw(void) {
     }
 }
 
-static void handleWin(void) {
-    checkWin(CIRCLE);
-    checkWin(CROSS);
+static void handleWin(Tile *tiles) {
+    checkWin(CIRCLE, tiles);
+    checkWin(CROSS, tiles);
 
     if (gameState.gameResult != WIN_CIRCLE && gameState.gameResult != WIN_CROSS) {
-        checkDraw();
+        checkDraw(tiles);
     }
 }
 
@@ -174,7 +172,7 @@ int main(void)
 {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
 
-    initTiles();
+    initTiles(gameState.tiles);
 
     SetTargetFPS(60);
 
@@ -188,22 +186,22 @@ int main(void)
         {
             for (int i = 0; i < NUM_OF_SQUARES; i++)
             {
-                if (CheckCollisionPointRec(mousePosition, tiles[i].tile) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+                if (CheckCollisionPointRec(mousePosition, gameState.tiles[i].tile) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
                 {
-                    if (tiles[i].value == DEFAULT_VALUE)
+                    if (gameState.tiles[i].value == DEFAULT_VALUE)
                     {
                         switch (gameState.playerTurn) {
                             case CIRCLE_TURN:
                                 gameState.playerTurn = CROSS_TURN;
-                                tiles[i].value = CIRCLE;
+                                gameState.tiles[i].value = CIRCLE;
                                 break;
                             case CROSS_TURN:
                                 gameState.playerTurn = CIRCLE_TURN;
-                                tiles[i].value = CROSS;
+                                gameState.tiles[i].value = CROSS;
                                 break;
                         }
 
-                        handleWin();
+                        handleWin(gameState.tiles);
                     }
                 }
             }
@@ -224,20 +222,20 @@ int main(void)
 
         for (int i = 0; i < NUM_OF_SQUARES; i++)
         {
-            switch (tiles[i].value)
+            switch (gameState.tiles[i].value)
             {
                 case DEFAULT_VALUE:
-                    DrawRectangleRec(tiles[i].tile, WHITE);
+                    DrawRectangleRec(gameState.tiles[i].tile, WHITE);
                     break;
                 case CIRCLE:
-                    DrawRectangleRec(tiles[i].tile, WHITE);
+                    DrawRectangleRec(gameState.tiles[i].tile, WHITE);
                     const Vector2 OSize = MeasureTextEx(GetFontDefault(), "O", 90, 1);
-                    DrawText("O", (int)(tiles[i].tile.x + (OSize.x / 2)) , (int) tiles[i].tile.y, 90, BLACK);
+                    DrawText("O", (int)(gameState.tiles[i].tile.x + (OSize.x / 2)) , (int) gameState.tiles[i].tile.y, 90, BLACK);
                     break;
                 case CROSS:
-                    DrawRectangleRec(tiles[i].tile, WHITE);
+                    DrawRectangleRec(gameState.tiles[i].tile, WHITE);
                     const Vector2 XSize = MeasureTextEx(GetFontDefault(), "X", 90, 1);
-                    DrawText("X",  (int) (tiles[i].tile.x + (XSize.x / 2)), (int) tiles[i].tile.y, 90, BLACK);
+                    DrawText("X",  (int) (gameState.tiles[i].tile.x + (XSize.x / 2)), (int) gameState.tiles[i].tile.y, 90, BLACK);
                     break;
             }
         }
