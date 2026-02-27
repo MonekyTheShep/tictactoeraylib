@@ -175,7 +175,9 @@ int main(void)
     {
         const Vector2 mousePosition = GetMousePosition();
 
-        if (gameState.gameResult != DRAW && (gameState.gameResult != WIN_CIRCLE && gameState.gameResult != WIN_CROSS)) {
+        const bool endResult = (gameState.gameResult == DRAW || (gameState.gameResult == WIN_CIRCLE || gameState.gameResult == WIN_CROSS));
+
+        if (!endResult) {
             checkWin(CIRCLE);
             checkWin(CROSS);
 
@@ -184,7 +186,7 @@ int main(void)
             }
         }
 
-        const bool endResult = (gameState.gameResult == DRAW || (gameState.gameResult == WIN_CIRCLE || gameState.gameResult == WIN_CROSS));
+
 
         if (!endResult)
         {
