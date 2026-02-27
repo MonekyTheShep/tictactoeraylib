@@ -1,9 +1,7 @@
 cmake_minimum_required(VERSION 4.1)
-project(E621RayLib C)
+project(TicTacToe C)
 set(CMAKE_C_STANDARD 99)
 
-find_package(CURL REQUIRED)
-find_package(cjson REQUIRED)
 find_package(raylib REQUIRED)
 
 # Adding Raylib
@@ -37,8 +35,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${raygui_SOURCE_DIR}/src)
 target_link_libraries(${PROJECT_NAME}
         PRIVATE
         raylib
-        cjson
-        CURL::libcurl
 )
 
 target_compile_options(${PROJECT_NAME} PRIVATE
