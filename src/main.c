@@ -23,18 +23,12 @@ typedef enum TileValue
     CROSS
 } TileValue;
 
-typedef enum PlayerTurn
-{
-    CIRCLE_TURN,
-    CROSS_TURN
-} PlayerTurn;
 
 typedef struct Tile
 {
     Rectangle tile;
     TileValue value;
 } Tile;
-
 
 typedef enum GameResult
 {
@@ -43,6 +37,12 @@ typedef enum GameResult
     WIN_CIRCLE,
     WIN_CROSS
 } GameResult;
+
+typedef enum PlayerTurn
+{
+    CIRCLE_TURN,
+    CROSS_TURN
+} PlayerTurn;
 
 typedef struct GameState
 {
@@ -69,18 +69,18 @@ static void initTiles(Tile *tiles)
     }
 }
 
-static void resetTiles(GameState *gameState)
+static void resetTiles(Tile *tiles)
 {
     for (int i = 0; i < NUM_OF_SQUARES; i++)
     {
-        gameState->tiles[i].value = DEFAULT_VALUE;
+        tiles[i].value = DEFAULT_VALUE;
     }
 }
 
 static void resetGame(GameState *gameState) {
     gameState->playerTurn = CROSS_TURN;
     gameState->gameResult = PLAYING;
-    resetTiles(gameState);
+    resetTiles(gameState->tiles);
 }
 
 static void checkWin(GameState *gameState, const TileValue tile_value)
