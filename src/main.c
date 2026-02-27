@@ -127,8 +127,6 @@ static void checkWin(TileValue tile_value)
         && (tiles[4].value == tiles[6].value)
         && (tiles[6].value == tile_value));
 
-    printf("%d\n", threeInARowHorizontal);
-
     if (firstDiagonal || secondDiagonal || threeInARowVertical || threeInARowHorizontal)
     {
         switch (tile_value)
@@ -192,7 +190,6 @@ int main(void)
             {
                 if (CheckCollisionPointRec(mousePosition, tiles[i].tile) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
                 {
-                    printf("%d\n", i);
                     if (tiles[i].value == DEFAULT_VALUE)
                     {
                         switch (gameState.playerTurn) {
