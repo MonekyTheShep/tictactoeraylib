@@ -94,51 +94,29 @@ static void checkWin(TileValue tile_value)
     // 3 4 5
     // 6 7 8
 
+    bool threeInARowVertical = false;
+    bool threeInARowHorizontal = false;
+
     for (int i = 0; i < NUM_OF_ROW; i++)
     {
-        const bool threeInARow =
+        threeInARowHorizontal =
             ((tiles[i * MAX_PER_ROW + 0].value == tiles[i * MAX_PER_ROW + 1].value)
             && (tiles[i * MAX_PER_ROW + 1].value == tiles[i * MAX_PER_ROW + 2].value)
             && (tiles[i * MAX_PER_ROW + 2].value == tile_value));
 
-        if (threeInARow)
-        {
-            switch (tile_value) {
-                case CIRCLE:
-                    gameState.gameResult = WIN_CIRCLE;
-                    break;
-                case CROSS:
-                    gameState.gameResult = WIN_CROSS;
-                    break;
-                default:
-                    break;
-            }
+        if (threeInARowHorizontal) break;
 
-            return;
-        }
     }
 
     for (int i = 0; i < NUM_OF_ROW; i++)
     {
-        const bool threeInARow =
+        threeInARowVertical =
          ((tiles[0 + i].value == tiles[3 + i].value)
          && (tiles[3 + i].value == tiles[6 + i].value)
          && (tiles[6 + i].value == tile_value));
 
-        if (threeInARow)
-        {
-            switch (tile_value) {
-                case CIRCLE:
-                    gameState.gameResult = WIN_CIRCLE;
-                    break;
-                case CROSS:
-                    gameState.gameResult = WIN_CROSS;
-                    break;
-                default:
-                    break;
-            }
-            return;
-        }
+        if (threeInARowVertical) break;
+
     }
 
     const bool firstDiagonal =
@@ -151,7 +129,9 @@ static void checkWin(TileValue tile_value)
         && (tiles[4].value == tiles[6].value)
         && (tiles[6].value == tile_value));
 
-    if (firstDiagonal || secondDiagonal)
+    printf("%d\n", threeInARowHorizontal);
+
+    if (firstDiagonal || secondDiagonal || threeInARowVertical || threeInARowHorizontal)
     {
         switch (tile_value) {
             case CIRCLE:
