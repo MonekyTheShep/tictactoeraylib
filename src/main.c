@@ -86,8 +86,6 @@ static void resetGame(void) {
     resetTiles();
 }
 
-
-
 static void checkWin(TileValue tile_value)
 {
     const int NUM_OF_ROW = NUM_OF_SQUARES / MAX_PER_ROW;
@@ -165,6 +163,15 @@ static void checkDraw(void) {
     }
 }
 
+static void handleWin(void) {
+    checkWin(CIRCLE);
+    checkWin(CROSS);
+
+    if (gameState.gameResult != WIN_CIRCLE && gameState.gameResult != WIN_CROSS) {
+        checkDraw();
+    }
+}
+
 int main(void)
 {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
@@ -177,17 +184,7 @@ int main(void)
     {
         const Vector2 mousePosition = GetMousePosition();
 
-        const bool endResult = (gameState.gameResult == DRAW || (gameState.gameResult == WIN_CIRCLE || gameState.gameResult == WIN_CROSS));
-
-        if (!endResult)
-        {
-            checkWin(CIRCLE);
-            checkWin(CROSS);
-
-            if (gameState.gameResult != WIN_CIRCLE && gameState.gameResult != WIN_CROSS) {
-                checkDraw();
-            }
-        }
+        const bool endResult = gameState.gameResult != PLAYING;
 
         if (!endResult)
         {
@@ -208,6 +205,8 @@ int main(void)
                                 tiles[i].value = CROSS;
                                 break;
                         }
+
+                        handleWin();
                     }
                 }
             }
@@ -236,12 +235,12 @@ int main(void)
                 case CIRCLE:
                     DrawRectangleRec(tiles[i].tile, WHITE);
                     const Vector2 OSize = MeasureTextEx(GetFontDefault(), "O", 90, 1);
-                    DrawText("O", (int) tiles[i].tile.x + (OSize.x / 2), (int) tiles[i].tile.y, 90, BLACK);
+                    DrawText("O", (int)(tiles[i].tile.x + (OSize.x / 2)) , (int) tiles[i].tile.y, 90, BLACK);
                     break;
                 case CROSS:
                     DrawRectangleRec(tiles[i].tile, WHITE);
                     const Vector2 XSize = MeasureTextEx(GetFontDefault(), "X", 90, 1);
-                    DrawText("X", tiles[i].tile.x + (XSize.x / 2), (int) tiles[i].tile.y, 90, BLACK);
+                    DrawText("X",  (int) (tiles[i].tile.x + (XSize.x / 2)), (int) tiles[i].tile.y, 90, BLACK);
                     break;
             }
         }
@@ -260,6 +259,7 @@ int main(void)
                     break;
                 case DRAW:
                     strcpy(titleText, "Draw");
+                    break;
                 default:
                     break;
             }
