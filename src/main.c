@@ -247,7 +247,7 @@ int main(void)
 
         if (endResult)
         {
-            char titleText[12];
+            char titleText[15];
 
             switch (gameState.gameResult)
             {
