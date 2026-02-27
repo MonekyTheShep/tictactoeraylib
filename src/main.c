@@ -72,7 +72,8 @@ static void initTiles(void)
     }
 }
 
-static void resetTiles(void) {
+static void resetTiles(void)
+{
     for (int i = 0; i < NUM_OF_SQUARES; i++)
     {
         tiles[i].value = DEFAULT_VALUE;
@@ -116,7 +117,6 @@ static void checkWin(TileValue tile_value)
          && (tiles[6 + i].value == tile_value));
 
         if (threeInARowVertical) break;
-
     }
 
     const bool firstDiagonal =
@@ -133,7 +133,8 @@ static void checkWin(TileValue tile_value)
 
     if (firstDiagonal || secondDiagonal || threeInARowVertical || threeInARowHorizontal)
     {
-        switch (tile_value) {
+        switch (tile_value)
+        {
             case CIRCLE:
                 gameState.gameResult = WIN_CIRCLE;
                 break;
@@ -158,7 +159,8 @@ static void checkDraw(void) {
         }
     }
 
-    if (!hasDefault) {
+    if (!hasDefault)
+    {
         gameState.gameResult = DRAW;
     }
 }
@@ -177,7 +179,8 @@ int main(void)
 
         const bool endResult = (gameState.gameResult == DRAW || (gameState.gameResult == WIN_CIRCLE || gameState.gameResult == WIN_CROSS));
 
-        if (!endResult) {
+        if (!endResult)
+        {
             checkWin(CIRCLE);
             checkWin(CROSS);
 
@@ -186,8 +189,6 @@ int main(void)
             }
         }
 
-
-
         if (!endResult)
         {
             for (int i = 0; i < NUM_OF_SQUARES; i++)
@@ -195,7 +196,8 @@ int main(void)
                 if (CheckCollisionPointRec(mousePosition, tiles[i].tile) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
                 {
                     printf("%d\n", i);
-                    if (tiles[i].value == DEFAULT_VALUE) {
+                    if (tiles[i].value == DEFAULT_VALUE)
+                    {
                         switch (gameState.playerTurn) {
                             case CIRCLE_TURN:
                                 gameState.playerTurn = CROSS_TURN;
@@ -247,19 +249,17 @@ int main(void)
         if (endResult)
         {
             char titleText[12];
-            if (gameState.gameResult == DRAW)
+
+            switch (gameState.gameResult)
             {
-                strcpy(titleText, "Draw");
-            }
-
-
-            switch (gameState.gameResult) {
                 case WIN_CIRCLE:
                     strcpy(titleText, "Circle win!");
                     break;
                 case WIN_CROSS:
                     strcpy(titleText, "Cross win!");
                     break;
+                case DRAW:
+                    strcpy(titleText, "Draw");
                 default:
                     break;
             }
