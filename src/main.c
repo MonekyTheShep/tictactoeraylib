@@ -51,8 +51,6 @@ typedef struct GameState
     Tile tiles[NUM_OF_SQUARES];
 } GameState;
 
-GameState gameState = {CROSS_TURN, PLAYING, {0}};
-
 static void initTiles(Tile *tiles)
 {
     for (int i = 0; i < NUM_OF_SQUARES; i++)
@@ -71,21 +69,21 @@ static void initTiles(Tile *tiles)
     }
 }
 
-static void resetTiles(void)
+static void resetTiles(GameState *gameState)
 {
     for (int i = 0; i < NUM_OF_SQUARES; i++)
     {
-        gameState.tiles[i].value = DEFAULT_VALUE;
+        gameState->tiles[i].value = DEFAULT_VALUE;
     }
 }
 
-static void resetGame(void) {
-    gameState.playerTurn = CROSS_TURN;
-    gameState.gameResult = PLAYING;
-    resetTiles();
+static void resetGame(GameState *gameState) {
+    gameState->playerTurn = CROSS_TURN;
+    gameState->gameResult = PLAYING;
+    resetTiles(gameState);
 }
 
-static void checkWin(TileValue tile_value, Tile *tiles)
+static void checkWin(GameState *gameState, TileValue tile_value, Tile *tiles)
 {
     const int NUM_OF_ROW = NUM_OF_SQUARES / MAX_PER_ROW;
     // 0 1 2
@@ -105,7 +103,7 @@ static void checkWin(TileValue tile_value, Tile *tiles)
         if (threeInARowHorizontal) break;
     }
 
-    for (int i = 0; i < NUM_OF_ROW; i++)
+    for (int i = 0; i < MAX_PER_ROW; i++)
     {
         threeInARowVertical =
          ((tiles[0 + i].value == tiles[3 + i].value)
@@ -130,10 +128,10 @@ static void checkWin(TileValue tile_value, Tile *tiles)
         switch (tile_value)
         {
             case CIRCLE:
-                gameState.gameResult = WIN_CIRCLE;
+                gameState->gameResult = WIN_CIRCLE;
                 break;
             case CROSS:
-                gameState.gameResult = WIN_CROSS;
+                gameState->gameResult = WIN_CROSS;
                 break;
             default:
                 break;
@@ -142,7 +140,7 @@ static void checkWin(TileValue tile_value, Tile *tiles)
 }
 
 
-static void checkDraw(Tile *tiles) {
+static void checkDraw(GameState *gameState, Tile *tiles) {
     bool hasDefault = false;
     for (int i = 0; i < NUM_OF_SQUARES; i++)
     {
@@ -155,22 +153,24 @@ static void checkDraw(Tile *tiles) {
 
     if (!hasDefault)
     {
-        gameState.gameResult = DRAW;
+        gameState->gameResult = DRAW;
     }
 }
 
-static void handleWin(Tile *tiles) {
-    checkWin(CIRCLE, tiles);
-    checkWin(CROSS, tiles);
+static void handleWin(GameState *gameState) {
+    checkWin(gameState, CIRCLE, gameState->tiles);
+    checkWin(gameState, CROSS, gameState->tiles);
 
-    if (gameState.gameResult != WIN_CIRCLE && gameState.gameResult != WIN_CROSS) {
-        checkDraw(tiles);
+    if (gameState->gameResult != WIN_CIRCLE && gameState->gameResult != WIN_CROSS) {
+        checkDraw(gameState, gameState->tiles);
     }
 }
 
 int main(void)
 {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
+
+    GameState gameState = {.playerTurn = CROSS_TURN, .gameResult= PLAYING, .tiles= {0}};
 
     initTiles(gameState.tiles);
 
@@ -201,7 +201,7 @@ int main(void)
                                 break;
                         }
 
-                        handleWin(gameState.tiles);
+                        handleWin(&gameState);
                     }
                 }
             }
@@ -271,7 +271,7 @@ int main(void)
 
             if (GuiButton((Rectangle) {0,100, 100, 100}, "Reset Game"))
             {
-               resetGame();
+               resetGame(&gameState);
             }
         }
         EndDrawing();
