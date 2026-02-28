@@ -7,8 +7,7 @@
 
 #define SCREEN_WIDTH (800)
 #define SCREEN_HEIGHT (600)
-
-#define WINDOW_TITLE "TicTacToe"
+#define WINDOW_TITLE ("TicTacToe")
 
 #define NUM_OF_SQUARES (9)
 #define SQUARE_SIZE (90.0f)
