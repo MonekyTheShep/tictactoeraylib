@@ -267,7 +267,7 @@ int main(void)
             const Font font = GetFontDefault();
             const float fontSize = 50.0f;
 
-            const Vector2 size = MeasureTextEx(font, titleText, fontSize, 0);
+            const Vector2 size = MeasureTextEx(font, titleText, fontSize, 0.0f);
 
             const float textXCenter = ((float)GetScreenWidth() - size.x) / 2.0f;
             const float textYCenter = ((float)GetScreenHeight() - size.y) / 2.0f;
