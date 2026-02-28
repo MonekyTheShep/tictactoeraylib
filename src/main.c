@@ -183,9 +183,9 @@ int main(void)
     {
         const Vector2 mousePosition = GetMousePosition();
 
-        const bool endResult = gameState.gameResult != PLAYING;
+        const bool playing = gameState.gameResult == PLAYING;
 
-        if (!endResult)
+        if (playing)
         {
             for (int i = 0; i < NUM_OF_SQUARES; i++)
             {
@@ -246,7 +246,7 @@ int main(void)
             }
         }
 
-        if (endResult)
+        if (!playing)
         {
             char titleText[15];
 
