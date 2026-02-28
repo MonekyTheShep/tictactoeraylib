@@ -232,15 +232,15 @@ int main(void)
                     break;
                 case CIRCLE:
                     DrawRectangleRec(gameState.tiles[i].tile, WHITE);
-                    const Vector2 OSize = MeasureTextEx(GetFontDefault(), "O", 90, 1);
+                    const Vector2 OSize = MeasureTextEx(GetFontDefault(), "O", 90.0f, 1.0f);
                     const Vector2 OPosition = {gameState.tiles[i].tile.x + (OSize.x / 2.0f), gameState.tiles[i].tile.y};
-                    DrawTextEx(GetFontDefault(), "O", OPosition, 90, 1, BLACK);
+                    DrawTextEx(GetFontDefault(), "O", OPosition, 90.0f, 1.0f, BLACK);
                     break;
                 case CROSS:
                     DrawRectangleRec(gameState.tiles[i].tile, WHITE);
-                    const Vector2 XSize = MeasureTextEx(GetFontDefault(), "X", 90, 1);
+                    const Vector2 XSize = MeasureTextEx(GetFontDefault(), "X", 90.0f, 1.0f);
                     const Vector2 XPosition = {gameState.tiles[i].tile.x + (XSize.x / 2.0f), gameState.tiles[i].tile.y};
-                    DrawTextEx(GetFontDefault(), "X", XPosition, 90, 1, BLACK);
+                    DrawTextEx(GetFontDefault(), "X", XPosition, 90.0f, 1.0f, BLACK);
                     break;
             }
         }
@@ -272,9 +272,9 @@ int main(void)
             const float textXCenter = ((float)GetScreenWidth() - size.x) / 2.0f;
             const float textYCenter = ((float)GetScreenHeight() - size.y) / 2.0f;
 
-            DrawTextEx(font, titleText, (Vector2){textXCenter, textYCenter - 175.0f}, fontSize, 1, BLACK);
+            DrawTextEx(font, titleText, (Vector2){textXCenter, textYCenter - 175.0f}, fontSize, 1.0f, BLACK);
 
-            if (GuiButton((Rectangle) {0,100, 100, 100}, "Reset Game"))
+            if (GuiButton((Rectangle) {0.0f,100.0f, 100.0f, 100.0f}, "Reset Game"))
             {
                resetGame(&gameState);
             }
