@@ -54,7 +54,7 @@ static void initTiles(Tile *tiles)
 {
     for (int i = 0; i < NUM_OF_SQUARES; i++)
     {
-        tiles[i].tile = (Rectangle) {0,0, SQUARE_SIZE, SQUARE_SIZE};
+        tiles[i].tile = (Rectangle) {0.0f,0.0f, SQUARE_SIZE, SQUARE_SIZE};
         tiles[i].value = DEFAULT_VALUE;
 
         // Align buttons in the grid
@@ -233,13 +233,13 @@ int main(void)
                 case CIRCLE:
                     DrawRectangleRec(gameState.tiles[i].tile, WHITE);
                     const Vector2 OSize = MeasureTextEx(GetFontDefault(), "O", 90, 1);
-                    const Vector2 OPosition = {gameState.tiles[i].tile.x + (OSize.x / 2), gameState.tiles[i].tile.y};
+                    const Vector2 OPosition = {gameState.tiles[i].tile.x + (OSize.x / 2.0f), gameState.tiles[i].tile.y};
                     DrawTextEx(GetFontDefault(), "O", OPosition, 90, 1, BLACK);
                     break;
                 case CROSS:
                     DrawRectangleRec(gameState.tiles[i].tile, WHITE);
                     const Vector2 XSize = MeasureTextEx(GetFontDefault(), "X", 90, 1);
-                    const Vector2 XPosition = {gameState.tiles[i].tile.x + (XSize.x / 2), gameState.tiles[i].tile.y};
+                    const Vector2 XPosition = {gameState.tiles[i].tile.x + (XSize.x / 2.0f), gameState.tiles[i].tile.y};
                     DrawTextEx(GetFontDefault(), "X", XPosition, 90, 1, BLACK);
                     break;
             }
@@ -272,7 +272,7 @@ int main(void)
             const float textXCenter = ((float)GetScreenWidth() - size.x) / 2.0f;
             const float textYCenter = ((float)GetScreenHeight() - size.y) / 2.0f;
 
-            DrawTextEx(font, titleText, (Vector2){textXCenter, textYCenter - 175}, fontSize, 1, BLACK);
+            DrawTextEx(font, titleText, (Vector2){textXCenter, textYCenter - 175.0f}, fontSize, 1, BLACK);
 
             if (GuiButton((Rectangle) {0,100, 100, 100}, "Reset Game"))
             {
