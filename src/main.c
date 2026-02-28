@@ -77,7 +77,8 @@ static void resetTiles(Tile *tiles)
     }
 }
 
-static void resetGame(GameState *gameState) {
+static void resetGame(GameState *gameState)
+{
     gameState->playerTurn = CROSS_TURN;
     gameState->gameResult = PLAYING;
     resetTiles(gameState->tiles);
@@ -142,7 +143,8 @@ static void checkWin(GameState *gameState, const TileValue tile_value)
 }
 
 
-static void checkDraw(GameState *gameState) {
+static void checkDraw(GameState *gameState)
+{
     bool hasDefault = false;
     const Tile *tiles = gameState->tiles;
     for (int i = 0; i < NUM_OF_SQUARES; i++)
@@ -160,7 +162,8 @@ static void checkDraw(GameState *gameState) {
     }
 }
 
-static void handleWin(GameState *gameState) {
+static void handleWin(GameState *gameState)
+{
     checkWin(gameState, CIRCLE);
     checkWin(gameState, CROSS);
 
@@ -172,12 +175,12 @@ static void handleWin(GameState *gameState) {
 int main(void)
 {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
+    SetTargetFPS(60);
 
     GameState gameState = {.playerTurn = CROSS_TURN, .gameResult= PLAYING, .tiles= {0}};
 
     initTiles(gameState.tiles);
 
-    SetTargetFPS(60);
 
     while (!WindowShouldClose())
     {
@@ -193,7 +196,8 @@ int main(void)
                 {
                     if (gameState.tiles[i].value == DEFAULT_VALUE)
                     {
-                        switch (gameState.playerTurn) {
+                        switch (gameState.playerTurn)
+                        {
                             case CIRCLE_TURN:
                                 gameState.playerTurn = CROSS_TURN;
                                 gameState.tiles[i].value = CIRCLE;
