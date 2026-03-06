@@ -22,7 +22,6 @@ typedef enum TileValue
     CROSS
 } TileValue;
 
-
 typedef struct Tile
 {
     Rectangle tile;
@@ -141,7 +140,6 @@ static void checkWin(GameState *gameState, const TileValue tile_value)
     }
 }
 
-
 static void checkDraw(GameState *gameState)
 {
     bool hasDefault = false;
@@ -161,7 +159,7 @@ static void checkDraw(GameState *gameState)
     }
 }
 
-static void handleWin(GameState *gameState)
+static void handleResult(GameState *gameState)
 {
     checkDraw(gameState);
     checkWin(gameState, CIRCLE);
@@ -173,7 +171,7 @@ int main(void)
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
     SetTargetFPS(60);
 
-    GameState gameState = {.playerTurn = CROSS_TURN, .gameResult= PLAYING, .tiles= {0}};
+    GameState gameState = {.playerTurn = CROSS_TURN, .gameResult = PLAYING, .tiles = {0}};
 
     initTiles(gameState.tiles);
 
@@ -204,7 +202,7 @@ int main(void)
                                 break;
                         }
 
-                        handleWin(&gameState);
+                        handleResult(&gameState);
                     }
                 }
             }
