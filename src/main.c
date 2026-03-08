@@ -202,23 +202,23 @@ int main(void)
 
     while (!WindowShouldClose())
     {
-        const Vector2 mousePosition = GetMousePosition();
-
         const bool playing = gameState.gameResult == PLAYING;
 
         if (playing)
         {
-            for (int i = 0; i < NUM_OF_SQUARES; i++)
+            if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
             {
-                if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+                for (int i = 0; i < NUM_OF_SQUARES; i++)
                 {
-                   if (CheckCollisionPointRec(mousePosition, gameState.tiles[i].tile))
-                   {
-                       handleTileClick(&gameState.tiles[i], &gameState);
-                   }
+                    const Vector2 mousePosition = GetMousePosition();
+
+                    if (CheckCollisionPointRec(mousePosition, gameState.tiles[i].tile))
+                    {
+                        handleTileClick(&gameState.tiles[i], &gameState);
+                    }
+
                 }
             }
-
         }
 
         BeginDrawing();
