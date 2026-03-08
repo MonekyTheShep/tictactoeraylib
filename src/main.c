@@ -163,9 +163,30 @@ static void handleResult(GameState *gameState)
 {
     checkDraw(gameState);
 
-    if (gameState->gameResult != DRAW) {
+    if (gameState->gameResult != DRAW)
+    {
         checkWin(gameState, CIRCLE);
         checkWin(gameState, CROSS);
+    }
+}
+
+static void handleTileClick(Tile *tile, GameState *gameState)
+{
+    if (tile->value == DEFAULT_VALUE)
+    {
+        switch (gameState->playerTurn)
+        {
+            case CIRCLE_TURN:
+                gameState->playerTurn = CROSS_TURN;
+                tile->value = CIRCLE;
+                break;
+            case CROSS_TURN:
+                gameState->playerTurn = CIRCLE_TURN;
+                tile->value = CROSS;
+                break;
+        }
+
+        handleResult(gameState);
     }
 }
 
@@ -189,24 +210,12 @@ int main(void)
         {
             for (int i = 0; i < NUM_OF_SQUARES; i++)
             {
-                if (CheckCollisionPointRec(mousePosition, gameState.tiles[i].tile) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+                if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
                 {
-                    if (gameState.tiles[i].value == DEFAULT_VALUE)
-                    {
-                        switch (gameState.playerTurn)
-                        {
-                            case CIRCLE_TURN:
-                                gameState.playerTurn = CROSS_TURN;
-                                gameState.tiles[i].value = CIRCLE;
-                                break;
-                            case CROSS_TURN:
-                                gameState.playerTurn = CIRCLE_TURN;
-                                gameState.tiles[i].value = CROSS;
-                                break;
-                        }
-
-                        handleResult(&gameState);
-                    }
+                   if (CheckCollisionPointRec(mousePosition, gameState.tiles[i].tile))
+                   {
+                       handleTileClick(&gameState.tiles[i], &gameState);
+                   }
                 }
             }
 
