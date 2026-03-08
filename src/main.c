@@ -162,8 +162,11 @@ static void checkDraw(GameState *gameState)
 static void handleResult(GameState *gameState)
 {
     checkDraw(gameState);
-    checkWin(gameState, CIRCLE);
-    checkWin(gameState, CROSS);
+
+    if (gameState->gameResult != DRAW) {
+        checkWin(gameState, CIRCLE);
+        checkWin(gameState, CROSS);
+    }
 }
 
 int main(void)
