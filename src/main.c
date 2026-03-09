@@ -159,14 +159,13 @@ static void checkDraw(GameState *gameState)
     }
 }
 
-static void handleResult(GameState *gameState)
+static void handleResult(GameState *gameState, TileValue value)
 {
     checkDraw(gameState);
 
     if (gameState->gameResult != DRAW)
     {
-        checkWin(gameState, CIRCLE);
-        checkWin(gameState, CROSS);
+        checkWin(gameState, value);
     }
 }
 
@@ -186,7 +185,7 @@ static void handleTileClick(Tile *tile, GameState *gameState)
                 break;
         }
 
-        handleResult(gameState);
+        handleResult(gameState, tile->value);
     }
 }
 
