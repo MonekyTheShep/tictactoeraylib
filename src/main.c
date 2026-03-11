@@ -53,7 +53,13 @@ static void initTiles(Tile *tiles)
 {
     for (int i = 0; i < NUM_OF_SQUARES; i++)
     {
-        tiles[i].tile = (Rectangle) {0.0f,0.0f, SQUARE_SIZE, SQUARE_SIZE};
+        tiles[i].tile = (Rectangle) {
+            .x = 0.0f,
+            .y = 0.0f,
+            .width = SQUARE_SIZE,
+            .height = SQUARE_SIZE
+        };
+
         tiles[i].value = DEFAULT_VALUE;
 
         // Align buttons in the grid
@@ -194,10 +200,13 @@ int main(void)
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
     SetTargetFPS(60);
 
-    GameState gameState = {.playerTurn = CROSS_TURN, .gameResult = PLAYING, .tiles = {0}};
+    GameState gameState = {
+            .playerTurn = CROSS_TURN,
+            .gameResult = PLAYING,
+            .tiles = {0}
+    };
 
     initTiles(gameState.tiles);
-
 
     while (!WindowShouldClose())
     {
@@ -242,13 +251,19 @@ int main(void)
                 case CIRCLE:
                     DrawRectangleRec(gameState.tiles[i].tile, WHITE);
                     const Vector2 OSize = MeasureTextEx(GetFontDefault(), "O", 90.0f, 1.0f);
-                    const Vector2 OPosition = {gameState.tiles[i].tile.x + (OSize.x / 2.0f), gameState.tiles[i].tile.y};
+                    const Vector2 OPosition = {
+                            .x = gameState.tiles[i].tile.x + (OSize.x / 2.0f),
+                            .y = gameState.tiles[i].tile.y
+                    };
                     DrawTextEx(GetFontDefault(), "O", OPosition, 90.0f, 1.0f, BLACK);
                     break;
                 case CROSS:
                     DrawRectangleRec(gameState.tiles[i].tile, WHITE);
                     const Vector2 XSize = MeasureTextEx(GetFontDefault(), "X", 90.0f, 1.0f);
-                    const Vector2 XPosition = {gameState.tiles[i].tile.x + (XSize.x / 2.0f), gameState.tiles[i].tile.y};
+                    const Vector2 XPosition = {
+                            .x = gameState.tiles[i].tile.x + (XSize.x / 2.0f),
+                            .y = gameState.tiles[i].tile.y
+                    };
                     DrawTextEx(GetFontDefault(), "X", XPosition, 90.0f, 1.0f, BLACK);
                     break;
             }
@@ -283,7 +298,14 @@ int main(void)
 
             DrawTextEx(font, titleText, (Vector2){textXCenter, textYCenter - 175.0f}, fontSize, 1.0f, BLACK);
 
-            if (GuiButton((Rectangle) {0.0f,100.0f, 100.0f, 100.0f}, "Reset Game"))
+            Rectangle button = {
+                    .x = 0.0f,
+                    .y = 0.0f,
+                    .width = 100.0f,
+                    .height = 100.0f
+            };
+
+            if (GuiButton(button, "Reset Game"))
             {
                resetGame(&gameState);
             }
