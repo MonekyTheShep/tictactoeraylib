@@ -300,7 +300,7 @@ int main(void)
 
             Rectangle button = {
                     .x = 0.0f,
-                    .y = 0.0f,
+                    .y = 100.0f,
                     .width = 100.0f,
                     .height = 100.0f
             };
