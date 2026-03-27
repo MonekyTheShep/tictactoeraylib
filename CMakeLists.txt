@@ -44,8 +44,7 @@ target_compile_options(${PROJECT_NAME} PRIVATE
         -fsanitize=address -g
 )
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address")
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address")
+target_link_options(${PROJECT_NAME} PRIVATE -fsanitize=address)
 
 # Setting ASSETS_PATH
 target_compile_definitions(${PROJECT_NAME} PUBLIC ASSETS_PATH="${CMAKE_CURRENT_SOURCE_DIR}/assets/") # Set the asset path macro to the absolute path on the dev machine
