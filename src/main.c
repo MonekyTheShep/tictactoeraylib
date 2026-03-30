@@ -216,10 +216,9 @@ int main(void)
         {
             if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
             {
+                const Vector2 mousePosition = GetMousePosition();
                 for (int i = 0; i < NUM_OF_SQUARES; i++)
                 {
-                    const Vector2 mousePosition = GetMousePosition();
-
                     if (CheckCollisionPointRec(mousePosition, gameState.tiles[i].tile))
                     {
                         handleTileClick(&gameState.tiles[i], &gameState);
