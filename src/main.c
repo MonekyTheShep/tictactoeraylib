@@ -169,10 +169,7 @@ static void handleResult(GameState *gameState, TileValue value)
 {
     checkDraw(gameState);
 
-    if (gameState->gameResult != DRAW)
-    {
-        checkWin(gameState, value);
-    }
+    checkWin(gameState, value);
 }
 
 static void handleTileClick(Tile *tile, GameState *gameState)
