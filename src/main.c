@@ -174,22 +174,22 @@ static void handleResult(GameState *gameState, TileValue value)
 
 static void handleTileClick(Tile *tile, GameState *gameState)
 {
-    if (tile->value == DEFAULT_VALUE)
-    {
-        switch (gameState->playerTurn)
-        {
-            case CIRCLE_TURN:
-                gameState->playerTurn = CROSS_TURN;
-                tile->value = CIRCLE;
-                break;
-            case CROSS_TURN:
-                gameState->playerTurn = CIRCLE_TURN;
-                tile->value = CROSS;
-                break;
-        }
+    if (tile->value != DEFAULT_VALUE) return;
 
-        handleResult(gameState, tile->value);
+    switch (gameState->playerTurn)
+    {
+        case CIRCLE_TURN:
+            gameState->playerTurn = CROSS_TURN;
+            tile->value = CIRCLE;
+            break;
+
+        case CROSS_TURN:
+            gameState->playerTurn = CIRCLE_TURN;
+            tile->value = CROSS;
+            break;
     }
+
+    handleResult(gameState, tile->value);
 }
 
 int main(void)
