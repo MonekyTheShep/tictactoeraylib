@@ -267,21 +267,14 @@ int main(void)
 
         if (!playing)
         {
-            char titleText[15];
+            const char *titleText = NULL;
 
             switch (gameState.gameResult)
             {
-                case WIN_CIRCLE:
-                    strcpy(titleText, "Circle win!");
-                    break;
-                case WIN_CROSS:
-                    strcpy(titleText, "Cross win!");
-                    break;
-                case DRAW:
-                    strcpy(titleText, "Draw");
-                    break;
-                default:
-                    break;
+                case WIN_CIRCLE: titleText = "Circle win!"; break;
+                case WIN_CROSS: titleText = "Cross Win!"; break;
+                case DRAW: titleText = "Draw"; break;
+                default: titleText = "Unknown Result"; break;
             }
 
             const Font font = GetFontDefault();
